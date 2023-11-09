@@ -6,17 +6,17 @@ import java.sql.SQLException;
 
 public class DatabaseConnector
 {
-    static Connection conne;
-    public Connection Connect()
+    static Connection connector;
+   final public Connection Connect()
     {
         try {
             Class.forName("org.postgresql.Driver");
-            conne = DriverManager.getConnection("jdbc:postgresql://localhost/university","postgres","password");
+            connector = DriverManager.getConnection("jdbc:postgresql://localhost/university","postgres","password");
         } catch (ClassNotFoundException ex) {
-
+            ex.printStackTrace();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return conne;
+        return connector;
     }
 }

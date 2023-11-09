@@ -1,24 +1,22 @@
 package com.crud.app.crudjavafx;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import java.sql.*;
-import java.util.logging.*;
 import javafx.collections.*;
 import javafx.scene.control.TableRow;
 
 public class AppController implements Initializable
 {
-
-    @FXML
-    private Label labFirst;
-    @FXML
-    private Label labSecond;
-    @FXML
-    private Label labPhone;
+    Connection connect = conn.Connect();
+    PreparedStatement pst;
+    int myIndex;
+    int id;
+    static DatabaseConnector conn = new DatabaseConnector();
 
     @FXML
     private TableView<UniModel> table;
@@ -37,49 +35,133 @@ public class AppController implements Initializable
     @FXML
     private TextField textPhone;
     @FXML
-    private Button buttonAdd;
+    private TextField textId;
     @FXML
-    private Button buttonUpdate;
-    @FXML
-    private Button buttonDelete;
-
-    @FXML
-    void Add(ActionEvent event)
+    void Add()
     {
 
+        String id, fname,sname,phone;
+        id = textId.getText();
+        fname = textFirst.getText();
+        sname = textSecond.getText();
+        phone = textPhone.getText();
+        try
+        {
+            pst = connect.prepareStatement("insert into stud.lecturers(id, firstName,secondName,Phone)values(?,?,?,?)");
+            pst.setInt(1, Integer.parseInt(id));
+            pst.setString(2, fname);
+            pst.setString(3, sname);
+            pst.setString(4, phone);
+            pst.executeUpdate();
+
+            Alert notify = new Alert(Alert.AlertType.INFORMATION);
+            notify.setTitle("University Form");
+            notify.setHeaderText("Lecturer Registration");
+            notify.setContentText("Operation Successful");
+            notify.showAndWait();
+            tableShow();
+            textId.setText("");
+            textFirst.setText("");
+            textSecond.setText("");
+            textPhone.setText("");
+            textId.requestFocus();
+        }
+        catch (SQLException ex)
+        {
+            Alert fatal = new Alert(Alert.AlertType.ERROR);
+            fatal.setTitle("University Form");
+            fatal.setHeaderText("Add Error");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exception = sw.toString();
+            fatal.setContentText(exception);
+        }
+    }
+
+    @FXML
+    void Update()
+    {
+        String id, fname,sname,phone;
+
+        myIndex = table.getSelectionModel().getSelectedIndex();
+        id = textId.getText();
+        fname =  textFirst.getText();
+        sname = textSecond.getText();
+        phone = textPhone.getText();
+        try
+        {
+            pst = connect.prepareStatement("update stud.lecturers set firstName = ?,secondName = ? ,Phone = ? where id = ? ");
+
+            pst.setString(1, fname);
+            pst.setString(2, sname);
+            pst.setString(3, phone);
+            pst.setInt(4, Integer.parseInt(id));
+            pst.executeUpdate();
+            Alert update = new Alert(Alert.AlertType.INFORMATION);
+            update.setTitle("University Form");
+            update.setHeaderText("Lecturer Registration");
+            update.setContentText("Operation Successful");
+            update.showAndWait();
+            tableShow();
+        }
+        catch (SQLException ex)
+        {
+            Alert fatal = new Alert(Alert.AlertType.ERROR);
+            fatal.setTitle("University Form");
+            fatal.setHeaderText("Update Error");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exception = sw.toString();
+            fatal.setContentText(exception);
+        }
 
     }
 
     @FXML
-    void Update(ActionEvent event)
+    void Delete()
     {
+        myIndex = table.getSelectionModel().getSelectedIndex();
+        id = Integer.parseInt(String.valueOf(table.getItems().get(myIndex).getId()));
 
+        try
+        {
+            pst = connect.prepareStatement("delete from stud.lecturers where id = ? ");
+            pst.setInt(1, id);
+            pst.executeUpdate();
+
+            Alert del = new Alert(Alert.AlertType.INFORMATION);
+            del.setTitle("University Form");
+            del.setHeaderText("Lecturer Registration");
+            del.setContentText("Operation Successful");
+            del.showAndWait();
+            tableShow();
+        }
+        catch (SQLException ex)
+        {
+            Alert fatal = new Alert(Alert.AlertType.ERROR);
+            fatal.setTitle("University Form");
+            fatal.setHeaderText("Delete Error");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exception = sw.toString();
+            fatal.setContentText(exception);
+        }
 
     }
-
-    @FXML
-    void Delete(ActionEvent event)
-    {
-
-
-    }
-
-    Connection con;
-    PreparedStatement pst;
-    int myIndex;
-    int id;
-
 
 
     public void tableShow()
     {
 
-        Connect();
+        conn.Connect();
         ObservableList<UniModel> uni = FXCollections.observableArrayList();
         try
         {
 
-            pst = con.prepareStatement("select id,firstname,secondname,phone from stud.lecturers");
+            pst = connect.prepareStatement("select id,firstname,secondname,phone from stud.lecturers order by id");
             ResultSet rs = pst.executeQuery();
             {
                 while (rs.next())
@@ -102,7 +184,14 @@ public class AppController implements Initializable
 
         catch (SQLException ex)
         {
-            Logger.getLogger(AppController.class.getName()).log(Level.SEVERE, null, ex);
+            Alert fatal = new Alert(Alert.AlertType.ERROR);
+            fatal.setTitle("University Form");
+            fatal.setHeaderText("Data Load Error");
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            ex.printStackTrace(pw);
+            String exception = sw.toString();
+            fatal.setContentText(exception);
         }
         table.setRowFactory( tv -> {
             TableRow<UniModel> myRow = new TableRow<>();
@@ -110,14 +199,27 @@ public class AppController implements Initializable
             {
                 if (event.getClickCount() == 1 && (!myRow.isEmpty()))
                 {
-                    myIndex =  table.getSelectionModel().getSelectedIndex();
+                    try
+                    {
+                        myIndex = table.getSelectionModel().getSelectedIndex();
 
-                    id = Integer.parseInt(String.valueOf(table.getItems().get(myIndex).idProperty()));
-                    textFirst.setText(table.getItems().get(myIndex).getFirstName());
-                    textSecond.setText(table.getItems().get(myIndex).getSecondName());
-                    textPhone.setText(table.getItems().get(myIndex).getPhone());
-
-
+                        textId.setText(table.getItems().get(myIndex).getId());
+                        textFirst.setText(table.getItems().get(myIndex).getFirstName());
+                        textSecond.setText(table.getItems().get(myIndex).getSecondName());
+                        textPhone.setText(table.getItems().get(myIndex).getPhone());
+                    }
+                    catch(IndexOutOfBoundsException ex)
+                    {
+                        Alert fatal = new Alert(Alert.AlertType.ERROR);
+                        fatal.setTitle("University Form");
+                        fatal.setHeaderText("Selection Error");
+                        StringWriter sw = new StringWriter();
+                        PrintWriter pw = new PrintWriter(sw);
+                        ex.printStackTrace(pw);
+                        String exception = sw.toString();
+                        fatal.setContentText(exception);
+                        ex.printStackTrace();
+                    }
 
                 }
             });
@@ -127,24 +229,9 @@ public class AppController implements Initializable
 
     }
 
-
-
-    public void Connect()
-    {
-        try {
-            Class.forName("org.postgresql.Driver");
-            con = DriverManager.getConnection("jdbc:postgresql://localhost/university","postgres","menel");
-        } catch (ClassNotFoundException ex) {
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Connect();
+        conn.Connect();
         tableShow();
     }
 
