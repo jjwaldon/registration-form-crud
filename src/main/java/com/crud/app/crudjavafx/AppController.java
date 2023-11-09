@@ -12,6 +12,18 @@ import javafx.scene.control.TableRow;
 
 public class AppController implements Initializable
 {
+    @FXML
+    public Button buttonDelete;
+    @FXML
+    public Button buttonUpdate;
+    @FXML
+    public Button buttonAdd;
+    @FXML
+    public Label labPhone;
+    @FXML
+    public Label labFirst;
+    @FXML
+    public Label labSecond;
     Connection connect = conn.Connect();
     PreparedStatement pst;
     int myIndex;
