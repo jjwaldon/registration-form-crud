@@ -4,34 +4,55 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.crud.app.crudjavafx.AppController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #464444;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.crud.app.crudjavafx.AppController">
     <children>
-        <TableView fx:id="table" layoutX="259.0" layoutY="69.0" prefHeight="200.0" prefWidth="317.0">
+        <TableView fx:id="table" layoutX="259.0" layoutY="69.0" prefHeight="152.0" prefWidth="331.0">
             <columns>
-                <TableColumn fx:id="idColumn" prefWidth="76.0" text="id" />
-                <TableColumn fx:id="firstColumn" prefWidth="74.0" text="firstName" />
-                <TableColumn fx:id="secondColumn" prefWidth="90.0" text="secondName" />
+                <TableColumn fx:id="idColumn" prefWidth="53.0" text="Id" />
+                <TableColumn fx:id="firstColumn" prefWidth="82.0" text="first Name" />
+                <TableColumn fx:id="secondColumn" prefWidth="105.0" text="Second Name" />
                 <TableColumn fx:id="phoneColumn" prefWidth="75.0" text="Phone" />
             </columns>
         </TableView>
-        <Pane layoutX="32.0" layoutY="69.0" prefHeight="228.0" prefWidth="200.0" style="-fx-background-color: black;">
+        <Pane layoutX="4.0" layoutY="48.0" prefHeight="176.0" prefWidth="244.0">
             <children>
-                <Label fx:id="labFirst" layoutX="8.0" layoutY="64.0" prefHeight="17.0" prefWidth="69.0" text="first Name" textFill="WHITE" />
-                <Label fx:id="labSecond" layoutX="8.0" layoutY="103.0" text="secondName" textFill="WHITE" />
-                <Label fx:id="labPhone" layoutX="15.0" layoutY="148.0" text="Phone" textFill="WHITE" />
-                <TextField fx:id="textFirst" layoutX="83.0" layoutY="60.0" prefHeight="25.0" prefWidth="110.0" />
-                <TextField fx:id="textSecond" layoutX="83.0" layoutY="99.0" prefHeight="25.0" prefWidth="110.0" />
-                <TextField fx:id="textPhone" layoutX="83.0" layoutY="144.0" prefHeight="25.0" prefWidth="110.0" />
-            <Label layoutX="10.0" layoutY="20.0" text="Id" textFill="WHITE" />
-            <TextField fx:id="textId" layoutX="83.0" layoutY="16.0" prefHeight="25.0" prefWidth="110.0" />
+                <Label fx:id="labFirst" depthTest="DISABLE" layoutX="19.0" layoutY="54.0" prefHeight="45.0" prefWidth="110.0" text="First Name" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Berlin Sans FB Demi Bold" size="16.0" />
+               </font></Label>
+                <Label fx:id="labSecond" layoutX="11.0" layoutY="93.0" prefHeight="45.0" prefWidth="110.0" text="Second Name" textFill="WHITE">
+               <font>
+                  <Font name="Berlin Sans FB Demi Bold" size="16.0" />
+               </font></Label>
+                <Label fx:id="labPhone" layoutX="40.0" layoutY="151.0" text="Phone" textFill="WHITE">
+               <font>
+                  <Font name="Berlin Sans FB Demi Bold" size="16.0" />
+               </font></Label>
+                <TextField fx:id="textFirst" layoutX="120.0" layoutY="64.0" prefHeight="25.0" prefWidth="110.0" />
+                <TextField fx:id="textSecond" layoutX="120.0" layoutY="103.0" prefHeight="25.0" prefWidth="110.0" />
+                <TextField fx:id="textPhone" layoutX="120.0" layoutY="148.0" prefHeight="25.0" prefWidth="110.0" />
+            <Label layoutX="55.0" layoutY="23.0" text="Id" textFill="WHITE">
+               <font>
+                  <Font name="Berlin Sans FB Bold" size="16.0" />
+               </font></Label>
+            <TextField fx:id="textId" layoutX="122.0" layoutY="21.0" prefHeight="25.0" prefWidth="110.0" />
             </children>
         </Pane>
-        <Button fx:id="buttonAdd" layoutX="32.0" layoutY="320.0" mnemonicParsing="false" onAction="#Add" prefHeight="55.0" prefWidth="153.0" text="Add" />
-        <Button fx:id="buttonUpdate" layoutX="224.0" layoutY="320.0" mnemonicParsing="false" onAction="#Update" prefHeight="55.0" prefWidth="153.0" text="Update" />
-        <Button fx:id="buttonDelete" layoutX="417.0" layoutY="320.0" mnemonicParsing="false" onAction="#Delete" prefHeight="55.0" prefWidth="153.0" text="Delete" />
-        <Label layoutX="204.0" layoutY="14.0" prefHeight="35.0" prefWidth="209.0" text="Registration Form">
+        <Button fx:id="buttonAdd" layoutX="32.0" layoutY="320.0" mnemonicParsing="false" onAction="#Add" prefHeight="55.0" prefWidth="153.0" text="Add">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="33.0" />
+         </font></Button>
+        <Button fx:id="buttonUpdate" layoutX="225.0" layoutY="320.0" mnemonicParsing="false" onAction="#Update" prefHeight="61.0" prefWidth="153.0" text="Update">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="32.0" />
+         </font></Button>
+        <Button fx:id="buttonDelete" layoutX="417.0" layoutY="320.0" mnemonicParsing="false" onAction="#Delete" prefHeight="55.0" prefWidth="153.0" text="Delete">
+         <font>
+            <Font name="Berlin Sans FB Demi Bold" size="33.0" />
+         </font></Button>
+        <Label blendMode="SCREEN" cache="true" layoutX="205.0" layoutY="14.0" prefHeight="45.0" prefWidth="192.0" text="Registration Form" textAlignment="CENTER" textFill="WHITE">
             <font>
-                <Font size="24.0" />
+                <Font name="Bodoni MT Bold" size="24.0" />
             </font>
         </Label>
     </children>
