@@ -4,7 +4,7 @@ A JavaFX CRUD application providing simple registration form that interacts with
 
 ## Features
 
-![1](https://github.com/jjwaldon/registration-form-crud/assets/147337604/89505961-d361-4f00-9a78-e38bca27bac2)
+![1](https://github.com/jjwaldon/registration-form-crud/assets/147337604/94777c53-1d73-4601-9f64-5301fefe59f5)
 
 - **Create:** Add new records to the database.
 - **Read:** Display existing records in a table.
